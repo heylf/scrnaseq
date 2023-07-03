@@ -47,6 +47,7 @@ include { CELLRANGER_ALIGN  } from "../subworkflows/local/align_cellranger"
 include { CELLRANGERARC_ALIGN  } from "../subworkflows/local/align_cellrangerarc"
 include { UNIVERSC_ALIGN    } from "../subworkflows/local/align_universc"
 include { MTX_CONVERSION    } from "../subworkflows/local/mtx_conversion"
+include { DEMULTIPLEX    } from "../subworkflows/local/demultiplex"
 include { GTF_GENE_FILTER   } from '../modules/local/gtf_gene_filter'
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -231,6 +232,12 @@ workflow SCRNASEQ {
 
     //Add Versions from MTX Conversion workflow too
     ch_versions.mix(MTX_CONVERSION.out.ch_versions)
+
+    if ( params.demultiplex ) {
+        DEMULTIPLEX(
+            ch_mtx_matrices
+        )
+    }
 
     // collect software versions
     CUSTOM_DUMPSOFTWAREVERSIONS (
