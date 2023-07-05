@@ -248,6 +248,30 @@
                 }
             }
         },
+        "demultiplex_options": {
+            "title": "Demultiplex Options",
+            "type": "object",
+            "description": "Params related to the demultiplexing pipeline",
+            "default": "",
+            "properties": {
+                "demultiplex": {
+                    "type": "boolean",
+                    "description": "To turn on the demultplexing workflow."
+                },
+                "umitag": {
+                    "type": "string",
+                    "description": "Tag for UMI: UR, Auto, None. For Auto mode, use UR if barcodes is inputted, otherwise use None. None mode means no UMI but read counts [Auto]."
+                },
+                "genotype": {
+                    "type": "string",
+                    "description": "If use, do genotyping in addition to counting."
+                },
+                "chrom": {
+                    "type": "integer",
+                    "description": "The chromosomes to use, comma separated [1 to 22]"
+                }
+            }
+        },
         "universc_options": {
             "title": "UniverSC Options",
             "type": "object",
@@ -482,6 +506,9 @@
         },
         {
             "$ref": "#/definitions/universc_options"
+        },
+        {
+            "$ref": "#/definitions/demultiplex_options"
         },
         {
             "$ref": "#/definitions/institutional_config_options"
