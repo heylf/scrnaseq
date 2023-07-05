@@ -10,8 +10,10 @@ workflow DEMULTIPLEX {
         ch_mtx_matrices
 
     main:
+        ch_versions = Channel.empty()
+
         CELLSNPLITE( ch_mtx_matrices )
-        ch_versions = ch_versions.mix(CELLSNP.out.versions)
+        ch_versions = ch_versions.mix(CELLSNPLITE.out.versions)
 
         /*
         VIREO( count_folder )
@@ -20,7 +22,6 @@ workflow DEMULTIPLEX {
         DEMULTIPLEXING
         ch_versions = ch_versions.mix(DEMULTIPLEXING.out.versions)
         */
-    }
     emit:
         ch_versions
         demultiplex_out  = CELLSNPLITE.out.outs

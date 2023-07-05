@@ -237,6 +237,7 @@ workflow SCRNASEQ {
         DEMULTIPLEX(
             ch_mtx_matrices
         )
+        ch_versions = ch_versions.mix(DEMULTIPLEX.out.ch_versions)
     }
 
     // collect software versions
