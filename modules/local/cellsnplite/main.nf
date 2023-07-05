@@ -1,6 +1,6 @@
 process CELLSNPLITE {
     tag "$meta.id"
-    label 'process_low' //TOFLO set to medium
+    label 'process_medium' //TOFLO set to medium
 
     conda "bioconda::cellsnp-lite=1.2.3"
     container "quay.io/heylf/cellsnp-lite:1.2.3" //TOFLO Remove quay.io
