@@ -1,6 +1,6 @@
 process CELLSNPLITE {
     tag "$meta.id"
-    label 'process_medium' //TOFLO set to medium
+    label 'process_low' //TOFLO set to medium
 
     conda "bioconda::cellsnp-lite=1.2.3"
     container "quay.io/heylf/cellsnp-lite:1.2.3" //TOFLO Remove quay.io
@@ -17,17 +17,17 @@ process CELLSNPLITE {
 
     script:
     def umitag = params.umitag ? "--UMItag ${params.umitag}" : ""
-    def genotpye =  params.genotpye ? "-R ${params.genotype}" : ""
+    def genotype =  params.genotype ? "-R ${params.genotype}" : ""
     def chrom =  params.chrom ? "--chrom ${params.chrom}" : ""
     """
     zcat '${meta.id}'/outs/filtered_feature_bc_matrix/barcodes.tsv.gz > '${meta.id}'/outs/filtered_feature_bc_matrix/barcodes.tsv
 
-    mkdir -p cellsnp_lite/'${meta.id}'
+    mkdir -p 'cellsnp_lite/${meta.id}'
 
     cellsnp-lite -s '${meta.id}'/outs/gex_possorted_bam.bam \\
         -b '${meta.id}'/outs/filtered_feature_bc_matrix/barcodes.tsv \\
-        -O cellsnp_lite/'${meta.id}' \\
-        $genotpye \\
+        -O 'cellsnp_lite/${meta.id}' \\
+        $genotype \\
         $umitag \\
         $chrom \\
         -p $task.cpus \\
@@ -42,8 +42,8 @@ process CELLSNPLITE {
 
     stub:
     """
-    mkdir -p cellsnp_lite/'${meta.id}'
-    touch cellsnp_lite/'${meta.id}'/fake_file.txt
+    mkdir -p 'cellsnp_lite/${meta.id}'
+    touch 'cellsnp_lite/${meta.id}'/fake_file.txt
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
