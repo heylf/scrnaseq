@@ -17,7 +17,8 @@ process CELLSNPLITE {
 
     script:
     def umitag = params.umitag ? "--UMItag ${params.umitag}" : ""
-    def genotpyes =  params.umitag ? "-R ${params.genotypes}" : ""
+    def genotpye =  params.genotpye ? "-R ${params.genotype}" : ""
+    def chrom =  params.chrom ? "--chrom ${params.chrom}" : ""
     """
     zcat '${meta.id}'/outs/filtered_feature_bc_matrix/barcodes.tsv.gz > '${meta.id}'/outs/filtered_feature_bc_matrix/barcodes.tsv
 
@@ -26,8 +27,9 @@ process CELLSNPLITE {
     cellsnp-lite -s '${meta.id}'/outs/gex_possorted_bam.bam \\
         -b '${meta.id}'/outs/filtered_feature_bc_matrix/barcodes.tsv \\
         -O cellsnp_lite/'${meta.id}' \\
-        $genotpyes \\
+        $genotpye \\
         $umitag \\
+        $chrom \\
         -p $task.cpus \\
         --gzip \\
         $args
