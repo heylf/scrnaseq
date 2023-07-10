@@ -10,7 +10,8 @@ process CELLSNPLITE {
 
     output:
     tuple val(meta), path("cellsnp_lite/${meta.id}"), emit: outs
-    path  "versions.yml", emit: versions
+    path "cellsnp_lite", emit: folder
+    path "versions.yml", emit: versions
 
     when:
     task.ext.when == null || task.ext.when
