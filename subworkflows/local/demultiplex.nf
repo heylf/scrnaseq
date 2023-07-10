@@ -4,6 +4,7 @@
 
 include {CELLSNPLITE} from "../../modules/local/cellsnplite/main.nf"
 include {VIREO} from "../../modules/local/vireo/main.nf"
+include {DEMULTIPLEXING} from "../../modules/local/plexer/main.nf"
 
 // Define workflow to demultplex a h5ad file
 workflow DEMULTIPLEX {
@@ -19,10 +20,13 @@ workflow DEMULTIPLEX {
         VIREO( CELLSNPLITE.out.outs )
         ch_versions = ch_versions.mix(VIREO.out.versions)
 
-        /*
-        DEMULTIPLEXING
+
+        if(params.pooling){
+            DEMULTIPLEXING(CELLSNPLITE.out.folder,VIREO.out.folder)
+        } else {
+            DEMULTIPLEXING()
+        }
         ch_versions = ch_versions.mix(DEMULTIPLEXING.out.versions)
-        */
     emit:
         ch_versions
         demultiplex_out  = VIREO.out.outs
