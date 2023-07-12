@@ -15,7 +15,6 @@ process VIREO {
 
     output:
     tuple val(meta), path("${meta.id}"), emit: outs
-    path "vireo", emit: folder
     path "versions.yml", emit: versions
 
     when:
